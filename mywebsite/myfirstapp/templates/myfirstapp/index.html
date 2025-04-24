@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
   <head>
     <meta charset="utf-8">
@@ -57,6 +57,42 @@
         color: #999;
         margin-top: 20px;
       }
+
+      form {
+        margin-top: 40px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        color: #444;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      input[type="checkbox"] {
+        margin-right: 5px;
+      }
+
+      input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
     </style>
   </head>
   <body>
@@ -67,7 +103,7 @@
         <ul>
           {% for estudiante in estudiantes %}
             <li>
-              <a href="/myfirstapp/{{ estudiante.id }}/detalles">
+              <a href="{% url 'myfirstapp:detalles' estudiante.id %}">
                 {{ estudiante.nombre }} {{ estudiante.apellidos }}
               </a>
             </li>
@@ -76,6 +112,31 @@
       {% else %}
         <p class="no-data">No hay estudiantes registrados.</p>
       {% endif %}
+
+      <h2>Agregar Estudiante</h2>
+      <form action="{% url 'myfirstapp:agrega_estudiante_forma' %}" method="POST">
+        {% csrf_token %}
+        <label>
+          Nombre:
+          <input type="text" name="nombre">
+        </label>
+        <label>
+          Apellidos:
+          <input type="text" name="apellidos">
+        </label>
+        <label>
+          Edad:
+          <input type="text" name="edad">
+        </label>
+        <label>
+          Promedio:
+          <input type="text" name="promedio">
+        </label>
+        <label>
+          <input type="checkbox" value="True" name="foraneo"> Foráneo
+        </label>
+        <input type="submit" value="Agregar">
+      </form>
     </div>
   </body>
 </html>

@@ -41,6 +41,38 @@
         color: #555;
         width: 40%;
       }
+
+      form {
+        margin-top: 30px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
     </style>
   </head>
   <body>
@@ -75,11 +107,63 @@
               {% endif %}
             </td>
           </tr>
+          <tr>
+            <td class="label">Tipo:</td>
+            <td>
+              {% if carreras %}
+                <ul>
+                  {% for carrera in carreras %}
+                    <li><strong>{{ carrera.nombre }}</strong> (Tipo: {{ carrera.tipo }})</li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p>No tiene carreras registradas.</p>
+              {% endif %}
+            </td>
+          </tr>
         </table>
+
+        <!-- Formulario para agregar carrera -->
+        <form action="" method="get" onsubmit="return redirectToCarrera(event)">
+          <h2>Agregar Carrera</h2>
+          <label>
+            Tipo de Carrera (número):
+            <input type="text" id="tipo" required>
+          </label>
+          <label>
+            Nombre de la Carrera:
+            <input type="text" id="nombre" required>
+          </label>
+          <input type="submit" value="Agregar Carrera">
+        </form>
+          
+        <h2>Editar Promedio</h2>
+        <form action="{% url 'myfirstapp:edita_estudiante' estudiante.id 'nuevo_promedio' %}" method="GET" onsubmit="this.action = this.action.replace('nuevo_promedio', this.promedio.value)">
+          <label for="promedio">Nuevo Promedio:</label>
+          <input type="text" name="promedio" required>
+          <input type="submit" value="Actualizar Promedio" style="background-color: #28a745; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+        </form>
+
+        <form action="{% url 'myfirstapp:borra_estudiante' estudiante.id %}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas borrar este estudiante?');">
+            {% csrf_token %}
+            <input type="submit" value="Borrar Estudiante" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+        </form>
+
+        <script>
+          function redirectToCarrera(event) {
+            event.preventDefault();
+            const tipo = document.getElementById('tipo').value;
+            const nombre = document.getElementById('nombre').value;
+            const estudianteId = "{{ estudiante.id }}";
+            const url = `/myfirstapp/${estudianteId}/${tipo}/${nombre}/agrega_carrera/`;
+            window.location.href = url;
+            return false;
+          }
+        </script>
+
       {% else %}
         <p>No se encontró información del estudiante.</p>
       {% endif %}
     </div>
   </body>
 </html>
-

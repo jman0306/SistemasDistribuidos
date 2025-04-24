@@ -1,4 +1,6 @@
 from django.db import models
+from django.http import HttpResponse
+from django.template import loader
 
 # Create your models here.
 class Estudiante(models.Model):
@@ -21,3 +23,8 @@ class Carrera(models.Model):
     estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
     tipo = models.IntegerField(choices=OPCIONES_TIPO, null=True, blank=True)
     nombre = models.CharField(max_length=200)
+
+    def get_tipo(self):
+        return Carrera.OPCIONES_TIPO[self.tipo-1][1]
+
+
