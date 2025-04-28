@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-workspace name="SoapUI_Project" soapui-version="5.8.0" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:project name="Calculadora_SOAP">D:/manri/OneDrive ITAM/OneDrive - INSTITUTO TECNOLOGICO AUTONOMO DE MEXICO/Apuntes/Sistemas Distribuidos/Git/SistemasDistribuidos/SoapUI/Calculadora-SOAP-soapui-project.xml</con:project>
+  <con:project name="REST Project 1">D:/manri/OneDrive ITAM/OneDrive - INSTITUTO TECNOLOGICO AUTONOMO DE MEXICO/Apuntes/Sistemas Distribuidos/Git/SistemasDistribuidos/SoapUI/REST-Project-1-soapui-project.xml</con:project>
+</con:soapui-workspace>
