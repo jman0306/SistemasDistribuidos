@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listado de Trabajadores</title>
+</head>
+<body>
+    <h1>Listado de Trabajadores</h1>
+    <p>Ordenar por:
+        <a href="?orden=nombre">Nombre</a> |
+        <a href="?orden=edad_actual">Edad</a> |
+        <a href="?orden=saldo_acumulado">Saldo</a> |
+        <a href="?orden=ahorro_mensual">Ahorro</a>
+    </p>
+
+    {% for t in trabajadores %}
+        <p>
+            <strong>Nombre:</strong> {{ t.nombre }} |
+            <strong>Edad actual:</strong> {{ t.edad_actual }} |
+            <strong>Edad de retiro:</strong> {{ t.edad_retiro }} |
+            <strong>Género:</strong> {{ t.get_genero_display }} |
+            <strong>Saldo acumulado:</strong> ${{ t.saldo_acumulado|floatformat:2 }} |
+            <strong>Ahorro mensual:</strong> ${{ t.ahorro_mensual|floatformat:2 }} |
+            <strong>Pensión esperada:</strong> ${{ t.calcular_pension_mensual|floatformat:2 }}
+        </p>
+    {% empty %}
+        <p>No hay trabajadores registrados.</p>
+    {% endfor %}
+</body>
+</html>
+

@@ -4,9 +4,9 @@
     <title>Resultado</title>
 </head>
 <body>
-    <h1>Resultado de Simulación de Pensión</h1>
-    <p>Gracias, {{ trabajador.nombre }}.</p>
-    <p>Tu pensión mensual esperada es de: <strong>${{ pension }}</strong></p>
-    <a href="{% url 'index' %}">Volver</a>
+    <h2>Gracias, {{ trabajador.nombre }}</h2>
+    <p>Género: {{ trabajador.get_genero_display }}</p>
+    <p>Tu pensión mensual esperada es: ${{ pension }}</p>
+    <a href="/">Volver al formulario</a>
 </body>
 </html>

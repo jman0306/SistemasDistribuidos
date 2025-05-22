@@ -23,8 +23,8 @@ public class ConsultaPaises {
     */
     
     public static void main(String[] args) throws IOException {
-        // Inicia el servidor HTTP en el puerto 8080
-        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+        // Inicia el servidor HTTP en el puerto 8081
+        HttpServer server = HttpServer.create(new InetSocketAddress(9090), 0);
         
         // Configura los endpoints
         server.createContext("/all", new AllCountriesHandler());
@@ -32,7 +32,7 @@ public class ConsultaPaises {
 
         // Inicia el servidor
         server.start();
-        System.out.println("Servidor iniciado en http://localhost:8080");
+        System.out.println("Servidor iniciado en http://localhost:9090");
     }
 
     // Handler para la ruta /all que devuelve todos los países

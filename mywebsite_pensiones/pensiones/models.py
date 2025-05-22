@@ -1,20 +1,25 @@
 from django.db import models
 
-class TrabajadorIndependiente(models.Model):
+class Trabajador(models.Model):
+    GENERO_CHOICES = [
+        ('M', 'Masculino'),
+        ('F', 'Femenino'),
+    ]
+
     nombre = models.CharField(max_length=100)
-    edad_actual = models.IntegerField()
-    edad_retiro = models.IntegerField()
-    saldo_afore = models.FloatField()
+    genero = models.CharField(
+        max_length=1,
+        choices=GENERO_CHOICES,
+        default='M'  # Valor por defecto para nuevas filas o migraciones
+    )
+    edad_actual = models.PositiveIntegerField()
+    edad_retiro = models.PositiveIntegerField()
+    saldo_acumulado = models.FloatField()
     ahorro_mensual = models.FloatField()
-    genero = models.CharField(max_length=10)
 
     def calcular_pension_mensual(self):
-        años_restantes = self.edad_retiro - self.edad_actual
-        if años_restantes <= 0:
-            return 0  # Ya se retiró o edad inválida
-
-        total_ahorrado = self.saldo_afore + (self.ahorro_mensual * 12 * años_restantes)
-        # Supongamos que la pensión mensual es el total dividido entre 20 años de retiro (240 meses)
-        pension_mensual = total_ahorrado / 240
-        return round(pension_mensual, 2)
-
+        meses = (self.edad_retiro - self.edad_actual) * 12
+        if meses <= 0:
+            return 0
+        saldo_futuro = self.saldo_acumulado + (self.ahorro_mensual * meses)
+        return round(saldo_futuro / 240, 2)  # 20 años de retiro

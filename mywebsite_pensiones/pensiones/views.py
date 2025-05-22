@@ -1,29 +1,28 @@
-# views.py
-from django.shortcuts import render, redirect
-from .models import TrabajadorIndependiente
+from django.shortcuts import render
+from .forms import TrabajadorForm
+from .models import Trabajador
 
-def index(request):
+def inicio(request):
     if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        edad_actual = int(request.POST.get('edad_actual'))
-        edad_retiro = int(request.POST.get('edad_retiro'))
-        saldo_afore = float(request.POST.get('saldo_afore'))
-        ahorro_mensual = float(request.POST.get('ahorro_mensual'))
-        genero = request.POST.get('genero')
+        if 'limpiar' in request.POST:
+            form = TrabajadorForm()
+        elif 'agregar' in request.POST:
+            form = TrabajadorForm(request.POST)
+            if form.is_valid():
+                trabajador = form.save()
+                pension = trabajador.calcular_pension_mensual()
+                return render(request, 'resultado.html', {
+                    'trabajador': trabajador,
+                    'pension': pension
+                })
+    else:
+        form = TrabajadorForm()
+    return render(request, 'index.html', {'form': form})  # Usamos index.html
 
-        trabajador = TrabajadorIndependiente.objects.create(
-            nombre=nombre,
-            edad_actual=edad_actual,
-            edad_retiro=edad_retiro,
-            saldo_afore=saldo_afore,
-            ahorro_mensual=ahorro_mensual,
-            genero=genero
-        )
-        pension = trabajador.calcular_pension_mensual()
+def listado(request):
+    criterio = request.GET.get('orden', 'nombre')
+    trabajadores = Trabajador.objects.all().order_by(criterio)
+    return render(request, 'listado.html', {
+        'trabajadores': trabajadores
+    })
 
-        return render(request, 'resultado.html', {
-            'trabajador': trabajador,
-            'pension': pension
-        })
-
-    return render(request, 'index.html')
